@@ -31,8 +31,8 @@ class ImageMask {
   void setMaskFromMatrix(const Eigen::MatrixXi & mask);
   Eigen::MatrixXi getMaskAsMatrix() const;
 
-  template<typename DERIVED>
-  bool isValid(const Eigen::MatrixBase<DERIVED> & k) const {
+  //template<typename DERIVED>
+  bool isValid(const Eigen::VectorXd & k) const {
     int k1 = k(1, 0) * _scale;
     int k0 = k(0, 0) * _scale;
     // \todo fix this when it is initialized properly

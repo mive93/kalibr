@@ -20,6 +20,7 @@ boost::python::tuple triangulateWrap(const Eigen::Vector3d & point0,
                                      const Eigen::Vector3d & ray0,
                                      const Eigen::Vector3d & point1,
                                      const Eigen::Vector3d & ray1) {
+
   Eigen::Vector3d outTriangulatedPoint;
   double outGap;
   double outS0;
@@ -28,6 +29,7 @@ boost::python::tuple triangulateWrap(const Eigen::Vector3d & point0,
               outS1);
 
   return boost::python::make_tuple(outTriangulatedPoint, outGap, outS0, outS1);
+
 }
 
 // template<typename C>
@@ -52,6 +54,7 @@ boost::python::tuple triangulateWrap(const Eigen::Vector3d & point0,
 
 template<typename C>
 void exportCameraGeometry(std::string name) {
+
   typedef typename C::shutter_t shutter_t;
   typedef typename C::projection_t projection_t;
   typedef typename C::mask_t mask_t;
@@ -73,6 +76,7 @@ void exportCameraGeometry(std::string name) {
       .def_pickle(sm::python::pickle_suite<C>());
 
   //exportCameraDesignVariables<C>(name);
+
 }
 
 template<typename T>
@@ -81,10 +85,12 @@ bool isValid(const T * mask, const Eigen::VectorXd & v) {
 }
 
 void exportCameraGeometries() {
+
   aslam::linkCvSerialization();
 
   exportCameraGeometryBase();
   exportCameraProjections();
+
   exportCameraShutters();
 
   //exportPinholeCameraGeometry();
@@ -169,14 +175,15 @@ void exportCameraGeometries() {
   exportCameraGeometry<FovDistortedDepthCameraGeometry>(
       "FovDistortedDepthCameraGeometry");
 
-  class_<ImageMask, boost::shared_ptr<ImageMask> >("ImageMask", init<>())
+  class_<ImageMask>("ImageMask", init<>())
       .def("setMask", &ImageMask::setMaskFromMatrix)
       .def("getMask", &ImageMask::getMaskAsMatrix)
-      .def("isValid", &ImageMask::isValid<Eigen::VectorXd>);
+      .def("isValid", &ImageMask::isValid);
 
   class_<NoMask, boost::shared_ptr<NoMask> >("NoMask", init<>())
       .def("isValid", &NoMask::isValid<Eigen::VectorXd>);
 
   def("triangulate", &triangulateWrap,
       "(outTriangulatedPoint, outGap, outS0, outS1 ) = triangulate( point0, ray0, point1, ray1)");
+
 }
