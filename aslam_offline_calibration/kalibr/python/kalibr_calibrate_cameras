@@ -404,17 +404,17 @@ def main():
             
             #write to file
             bagtag = parsed.bagfile.translate("<>:/\|?*").replace('.bag', '', 1)
-            resultFile = "camchain-" + bagtag + ".yaml"
+            resultFile =  bagtag + "-camchain.yaml"
             kcc.saveChainParametersYaml(calibrator, resultFile, graph)
             print("Results written to file: {0}".format(resultFile))
             
             #save results to file
-            resultFileTxt = "results-cam-" + bagtag + ".txt"
+            resultFileTxt = bagtag + "-results-cam-" + ".txt"
             kcc.saveResultTxt(calibrator, filename=resultFileTxt)
             print("  Detailed results written to file: {0}".format(resultFileTxt))
             
             #generate report
-            reportFile = "report-cam-" + bagtag + ".pdf"
+            reportFile =  bagtag + "-report-cam.pdf"
             G=None; 
             if numCams>1: 
                 G=graph
