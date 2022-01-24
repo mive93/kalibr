@@ -84,8 +84,11 @@ class MulticamCalibrationGraph(object):
 #############################################################    
     #check if all cams are connected through observations
     def isGraphConnected(self):
-        #check if all vertices are connected
-        return self.G.adhesion()
+        if self.numCams == 1:
+            return True
+        else:
+            #check if all vertices are connected
+            return self.G.adhesion()
         
     #returns the list of cam_ids that share common view with the specified cam_id
     def getCamOverlaps(self, cam_id):
@@ -302,20 +305,20 @@ class MulticamCalibrationGraph(object):
         else:
             target = "/tmp/graph.png"
 
-        plot = igraph.plot(self.G, 
-                           layout=layout, 
-                           rescale=False, 
-                           add=False,
-                           target=target,
-                           vertex_size=50,
-                           edge_label=self.G.es["weight"],
-                           edge_width=edgewidth,
-                           margin = 50)
+        # plot = igraph.plot(self.G, 
+        #                    layout=layout, 
+        #                    rescale=False, 
+        #                    add=False,
+        #                    target=target,
+        #                    vertex_size=50,
+        #                    edge_label=self.G.es["weight"],
+        #                    edge_width=edgewidth,
+        #                    margin = 50)
         
-        if not noShow:
-            return plot
-        else:
-            return target
+        # if not noShow:
+        #     return plot
+        # else:
+        return target
 
     def plotGraphPylab(self, fno=0, noShow=True, clearFigure=True, title=""):
         target = self.plotGraph(noShow=True)
